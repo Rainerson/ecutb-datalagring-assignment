@@ -10,7 +10,7 @@ namespace ReportSystem.Contexts
 {
     internal class DataContext : DbContext
     {
-        private readonly string _connectionString = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\Hannah\Documents\EC-Utbildning\ecutb-datalagring-assignment\ReportSystem\Contexts\sql_db.mdf;Integrated Security=True;Connect Timeout=30";
+        private readonly string _connectionString = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\Hannah\Documents\EC-Utbildning\ecutb-datalagring-assignment\ReportSystem\Contexts\sql_datab.mdf;Integrated Security=True;Connect Timeout=30";
         #region contructors
         public DataContext()
         {
@@ -34,15 +34,13 @@ namespace ReportSystem.Contexts
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            base.OnModelCreating(modelBuilder);
-            modelBuilder.Entity<TenantReportsEntity>().HasKey(vf => new { vf.TenantId, vf.ReportId });
         }
 
 
         public DbSet<TenantEntity> Tenants { get; set; } = null!;
         public DbSet<AddressEntity> Address { get; set; } = null!;
         public DbSet<ReportsEntity> Reports { get; set; } = null!;
-        public DbSet<TenantReportsEntity> TenantReports { get; set; } = null!;
+
 
     }
 }

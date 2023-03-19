@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ReportSystem.Contexts;
 
@@ -11,9 +12,11 @@ using ReportSystem.Contexts;
 namespace ReportSystem.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20230317221650_ChatGPTToldMeTo")]
+    partial class ChatGPTToldMeTo
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -85,10 +88,6 @@ namespace ReportSystem.Migrations
                     b.Property<int>("AddressId")
                         .HasColumnType("int");
 
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("FirstName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -101,9 +100,6 @@ namespace ReportSystem.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<int>("ReportId")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
 
                     b.HasIndex("AddressId")
@@ -112,10 +108,22 @@ namespace ReportSystem.Migrations
                     b.HasIndex("Phone")
                         .IsUnique();
 
-                    b.HasIndex("ReportId")
-                        .IsUnique();
-
                     b.ToTable("Tenants");
+                });
+
+            modelBuilder.Entity("ReportSystem.Models.Entities.TenantReportsEntity", b =>
+                {
+                    b.Property<int>("TenantId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ReportId")
+                        .HasColumnType("int");
+
+                    b.HasKey("TenantId", "ReportId");
+
+                    b.HasIndex("ReportId");
+
+                    b.ToTable("TenantReports");
                 });
 
             modelBuilder.Entity("ReportSystem.Models.Entities.TenantEntity", b =>
@@ -126,15 +134,26 @@ namespace ReportSystem.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.Navigation("Address");
+                });
+
+            modelBuilder.Entity("ReportSystem.Models.Entities.TenantReportsEntity", b =>
+                {
                     b.HasOne("ReportSystem.Models.Entities.ReportsEntity", "Report")
-                        .WithOne("Tenant")
-                        .HasForeignKey("ReportSystem.Models.Entities.TenantEntity", "ReportId")
+                        .WithMany("TenantReports")
+                        .HasForeignKey("ReportId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Address");
+                    b.HasOne("ReportSystem.Models.Entities.TenantEntity", "Tenant")
+                        .WithMany("TenantReports")
+                        .HasForeignKey("TenantId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Report");
+
+                    b.Navigation("Tenant");
                 });
 
             modelBuilder.Entity("ReportSystem.Models.Entities.AddressEntity", b =>
@@ -145,8 +164,12 @@ namespace ReportSystem.Migrations
 
             modelBuilder.Entity("ReportSystem.Models.Entities.ReportsEntity", b =>
                 {
-                    b.Navigation("Tenant")
-                        .IsRequired();
+                    b.Navigation("TenantReports");
+                });
+
+            modelBuilder.Entity("ReportSystem.Models.Entities.TenantEntity", b =>
+                {
+                    b.Navigation("TenantReports");
                 });
 #pragma warning restore 612, 618
         }

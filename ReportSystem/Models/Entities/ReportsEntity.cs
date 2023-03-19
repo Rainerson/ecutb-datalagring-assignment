@@ -9,8 +9,7 @@ namespace ReportSystem.Models.Entities
         public string Description { get; set; } = string.Empty;
         public DateTime Timestamp { get; set; }
         public string Status { get; set; } = string.Empty;
-
-        public ICollection<TenantReportsEntity> TenantReports = new HashSet<TenantReportsEntity>();
+        public virtual TenantEntity Tenant { get; set; } = null!;
     }
 
 

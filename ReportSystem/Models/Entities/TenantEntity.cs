@@ -10,13 +10,15 @@ namespace ReportSystem.Models.Entities
         public int Id { get; set; }
         public string FirstName { get; set; } = string.Empty;
         public string LastName { get; set; } = string.Empty;
+        public string Email { get; set; } = string.Empty;
         public string Phone { get; set; } = string.Empty;
 
 
         public int AddressId { get; internal set; }
         public virtual AddressEntity Address { get; set; } = null!;
 
-        public ICollection<TenantReportsEntity> TenantReports = new HashSet<TenantReportsEntity>();
+        public int ReportId { get; set; }
+        public virtual ReportsEntity Report { get; set; } = null!;
 
     }
 
