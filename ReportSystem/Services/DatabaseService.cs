@@ -92,12 +92,12 @@ namespace ReportSystem.Services
                     Email = report.Email,
                     Phone = report.Phone,
                     Address =
-                    {
-                        StreetName = report.Address.StreetName,
-                        StreetNumber = report.Address.StreetNumber,
-                        PostalCode = report.Address.PostalCode,
-                        City = report.Address.City
-                    },
+                        {
+                            StreetName = report.Address.StreetName,
+                            StreetNumber = report.Address.StreetNumber,
+                            PostalCode = report.Address.PostalCode,
+                            City = report.Address.City
+                        },
                     Report =
                         {
                             Description = report.Report.Description,
