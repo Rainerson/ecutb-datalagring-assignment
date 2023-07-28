@@ -82,6 +82,7 @@ namespace ReportSystem.Services
                 .Include(x => x.Address)
                 .Include(x => x.Report)
                 .FirstOrDefaultAsync(x => x.Phone == phone);
+
             if (report != null)
             {
                 return new Tenant
